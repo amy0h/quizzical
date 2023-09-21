@@ -17,9 +17,10 @@ export default function QuizSetup({ quizOption, setQuizOption, setQuizStatus, to
     }
 
     return (
-        <div className='quiz-setup-modal'>
-            <div className='select-container'>
-                <label htmlFor='category'>Select category</label>
+        <div className='modal'>
+            <div className='modal-content'>
+                <p className='modal-content-title'>Customize Your Quiz</p>
+                <label htmlFor='category'>Pick a Quiz Category</label>
                 <select
                     value={quizOption.category}
                     name='category'
@@ -53,7 +54,7 @@ export default function QuizSetup({ quizOption, setQuizOption, setQuizStatus, to
                     <option value='32'>Entertainment: Cartoon &amp; Animations</option>
                 </select>
 
-                <label htmlFor='difficulty'>Select difficulty</label>
+                <label htmlFor='difficulty'>Pick a Quiz Difficulty Level</label>
                 <select
                     value={quizOption.difficulty}
                     name='difficulty'
@@ -66,7 +67,7 @@ export default function QuizSetup({ quizOption, setQuizOption, setQuizStatus, to
                     <option value='hard'>Hard</option>
                 </select>
 
-                <label htmlFor='type'>Select type</label>
+                <label htmlFor='type'>Pick Question Format</label>
                 <select
                     value={quizOption.type}
                     name='type'
@@ -77,8 +78,8 @@ export default function QuizSetup({ quizOption, setQuizOption, setQuizStatus, to
                     <option value='multiple'>Multiple Choice</option>        
                     <option value='boolean'>True / False</option>
                 </select>
+                <button className='modal-content-btn' onClick={handleBeginQuiz}>Start Quiz</button>
             </div>
-            <button onClick={handleBeginQuiz}>start</button>
         </div>
     )
 }

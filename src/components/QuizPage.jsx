@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 export default function QuizPage({ quizOption }) {
 
-  const [quizData, setQuizData] = React.useState([])
-
-  React.useEffect(() => {
+  const [quizData, setQuizData] = useState([])
+  const [userAnswers, setUserAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false)
+  
+  useEffect(() => {
     fetchQuestions()
   }, [quizOption])
 
 async function fetchQuestions() {
-  
   const baseUrl = 'https://opentdb.com/api.php?amount=5';
   const apiUrl = `${baseUrl}${
     quizOption.category !== '' ? `&category=${quizOption.category}` : ''
@@ -17,9 +18,8 @@ async function fetchQuestions() {
     quizOption.difficulty !== '' ? `&difficulty=${quizOption.difficulty}` : ''
   }${
     quizOption.type !== '' ? `&type=${quizOption.type}` : ''
-  }`;
-
-  console.log(apiUrl)
+  }`
+  
   try {
     const response = await fetch(apiUrl);
 
@@ -28,45 +28,70 @@ async function fetchQuestions() {
     }
 
     const questionsData = await response.json();
-    setQuizData(questionsData.results)
+    const shuffledQuizData = questionsData.results.map((quiz) => ({
+      ...quiz,
+      answers: shuffleArray([quiz.correct_answer, ...quiz.incorrect_answers]),
+    }));
+    setQuizData(shuffledQuizData);
+    
+    const initialAnswers = {}
+    shuffledQuizData.forEach((quiz) => {
+      initialAnswers[quiz.question] = null
+    })
+    setUserAnswers(initialAnswers)
 
   } catch (error) {
     console.error('Error during API request:', error.message);
   }
 }
 
-function handleAnswerSelection(question, selectedAnswer) {
-  if (selectedAnswer === question.correct_answer) {
-    console.log('rignt!')
-  } else {
-    console.log('wrong!')
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
-
+  return array;
 }
 
-console.log(quizData)
+function handleAnswerSelection(question, selectedAnswer) {
+  console.log(question, selectedAnswer)
+  setUserAnswers((prevAnswers) => ({
+    ...prevAnswers,
+    [question]: selectedAnswer,
+  }))
+}
+
+  function checkAnswers() {
+    setShowResults(true)
+  }
+  
   return (
-    <div> 
+    <div>
       {quizData.map((quiz, index) => (
         <div key={index}>
-          <p>Question: {quiz.question}</p>
-          <div>
-            <p>Answers:</p>
+          <h2 className='quiz-question'>{quiz.question}</h2>
+          <div className='quiz-answer-container'>
+            {quiz.answers.map((answer, index) => (
             <button
-              onClick={() => handleAnswerSelection(quiz, quiz.correct_answer)}>
-              {quiz.correct_answer}
+              key={index}
+              className={`answers ${
+                userAnswers[quiz.question] === answer ? 'selected-answer' : ''
+              } ${
+                showResults && answer === quiz.correct_answer
+                  ? 'correct-answer'
+                  : showResults && answer === userAnswers[quiz.question]
+                  ? 'incorrect-answer'
+                  : ''
+              }`}
+              onClick={() => handleAnswerSelection(quiz.question, answer)}
+            >
+              {answer}
             </button>
-            {quiz.incorrect_answers.map((answer, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleAnswerSelection(quiz, answer)}>
-                {answer}
-              </button>
             ))}
-              </div>
-        </div> 
+          </div>
+        </div>
       ))}
-      <button>Check answers</button>
+      <button onClick={checkAnswers}>Check answers</button>
     </div>
-  )
+  );
 }
