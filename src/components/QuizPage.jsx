@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from 'react'
+import { decode } from 'html-entities'
+import ReactLoading from 'react-loading'
 
-export default function QuizPage({ quizOption }) {
+export default function QuizPage({ quizOption, setQuizStatus, applyAnimation }) {
 
+  
+  const [isLoading, setIsLoading] = useState(false)
   const [quizData, setQuizData] = useState([])
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false)
+  const [showBtn, setShowBtn] = useState(false)
+  const [userScore, setUserScore] = useState(null)
+  
   
   useEffect(() => {
     fetchQuestions()
   }, [quizOption])
 
+  useEffect(() => {
+    const allAnswersSelected = Object.values(userAnswers).every((value) => value !== null)
+    setShowBtn(allAnswersSelected)
+  }, [userAnswers]);
+
 async function fetchQuestions() {
+  setIsLoading(true)
+
   const baseUrl = 'https://opentdb.com/api.php?amount=5';
   const apiUrl = `${baseUrl}${
     quizOption.category !== '' ? `&category=${quizOption.category}` : ''
@@ -39,9 +53,11 @@ async function fetchQuestions() {
       initialAnswers[quiz.question] = null
     })
     setUserAnswers(initialAnswers)
+    setIsLoading(false)
 
   } catch (error) {
     console.error('Error during API request:', error.message);
+    setIsLoading(false)
   }
 }
 
@@ -54,44 +70,114 @@ function shuffleArray(array) {
 }
 
 function handleAnswerSelection(question, selectedAnswer) {
-  console.log(question, selectedAnswer)
-  setUserAnswers((prevAnswers) => ({
-    ...prevAnswers,
-    [question]: selectedAnswer,
-  }))
+  if (!showResults) {
+    setUserAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [question]: selectedAnswer,
+    }))
+  }
 }
 
   function checkAnswers() {
+    const score = calculateScore()
+    setUserScore(score)
     setShowResults(true)
+    /* setShowBtn(false) */
+  }
+
+  function calculateScore() {
+    let score = 0
+    quizData.forEach((quiz) => {
+      if (userAnswers[quiz.question] === quiz.correct_answer) {
+        score++
+      }
+    })
+    return score
   }
   
+
+  function handleRestart() {
+    setUserAnswers({})
+    setShowResults(false)
+    fetchQuestions()
+  }
+
+  function handleBackToMain() {
+    // Navigate back to the main page
+    
+    setQuizStatus(false);
+   
+  }
+
   return (
     <div>
-      {quizData.map((quiz, index) => (
-        <div key={index}>
-          <h2 className='quiz-question'>{quiz.question}</h2>
-          <div className='quiz-answer-container'>
-            {quiz.answers.map((answer, index) => (
-            <button
-              key={index}
-              className={`answers ${
-                userAnswers[quiz.question] === answer ? 'selected-answer' : ''
-              } ${
-                showResults && answer === quiz.correct_answer
-                  ? 'correct-answer'
-                  : showResults && answer === userAnswers[quiz.question]
-                  ? 'incorrect-answer'
-                  : ''
-              }`}
-              onClick={() => handleAnswerSelection(quiz.question, answer)}
-            >
-              {answer}
-            </button>
-            ))}
+      {isLoading ? (
+        <div className="loading-container"><ReactLoading type='bubbles' color='#4D5B9E' height={'100px'} width={'100px'} /></div>
+      ) : (
+        <div className='quiz-container'>
+        {quizData.map((quiz, index) => (
+          <div key={index}>
+            <h2 className='quiz-question'>{decode(quiz.question)}</h2>
+            <div className='quiz-answer-container'>
+              {quiz.answers.map((answer, index) => (
+              <button
+                key={index}
+                className={`answer ${
+                  userAnswers[quiz.question] === answer ? 'selected-answer' : ''
+                } ${
+                  showResults && answer === quiz.correct_answer
+                    ? 'correct-answer'
+                    : showResults && answer === userAnswers[quiz.question]
+                    ? 'incorrect-answer'
+                    : ''
+                }`}
+                onClick={() => handleAnswerSelection(quiz.question, answer)}
+                disabled={showResults}
+              >
+                {decode(answer)}
+              </button>
+              ))}
+              
+            </div>
+            <div className='divider'></div>
           </div>
-        </div>
-      ))}
-      <button onClick={checkAnswers}>Check answers</button>
+        ))}
+        {showResults ? (
+          <div className='score-section'>
+            <span className='score-message'>
+              You scored {userScore}/{quizData.length} correct answers
+            </span>
+            {userScore === 5 && (
+              <span className='score-message'>
+                . You rock!
+              </span>
+            )}
+            <div className='btn-container'>
+              <button onClick={handleRestart}>Restart Game</button>
+              <button onClick={handleBackToMain}>Back to Main</button>
+            </div>
+  
+          </div>
+        ) : (
+          showBtn ? (
+            <button
+              className='check-answer-btn'
+              onClick={checkAnswers}
+            
+            >
+              Check answers
+            </button>
+          ) : (
+            <p className='score-message'>
+              Please answer all questions to check your answers
+            </p>
+          )
+        )}
+      </div>
+      )}
     </div>
-  );
-}
+  )
+    
+
+  
+        }

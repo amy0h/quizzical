@@ -1,19 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-export default function QuizSetup({ quizOption, setQuizOption, setQuizStatus, toggleShowModal }) {
+export default function QuizSetup({
+    quizOption,
+    setQuizOption,
+    setQuizStatus,
+    toggleShowModal
+}) {
 
     function handleChange() {
-        const { name, value } = event.target
+        const { name, value } = event.target;
         setQuizOption(prevOption => ({
             ...prevOption,
             [name]: value
-        }))
-        
+        }));
     }
 
+    // Hide modal and begin quiz
     function handleBeginQuiz() {
-        toggleShowModal(false)
-        setQuizStatus(true)
+        toggleShowModal(false);
+        setQuizStatus(true);
     }
 
     return (
@@ -78,8 +83,13 @@ export default function QuizSetup({ quizOption, setQuizOption, setQuizStatus, to
                     <option value='multiple'>Multiple Choice</option>        
                     <option value='boolean'>True / False</option>
                 </select>
-                <button className='modal-content-btn' onClick={handleBeginQuiz}>Start Quiz</button>
+                <button
+                    className='modal-content-btn'
+                    onClick={handleBeginQuiz}
+                >
+                    Start Quiz
+                </button>
             </div>
         </div>
-    )
+    );
 }
