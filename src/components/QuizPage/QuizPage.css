@@ -1,0 +1,24 @@
+/* Quiz container styles */
+.quiz-container {
+    padding: 2.5em 4.69em;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+}
+  
+.score-section {
+    text-align: center;
+}
+  
+.score-message {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+}
+  
+.btn-container {
+    display: flex;
+    gap: 1em;
+    margin-top: 3em;
+    justify-content: center;
+}

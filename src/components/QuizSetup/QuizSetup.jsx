@@ -1,4 +1,5 @@
 import React from 'react';
+import './QuizSetup.css';
 
 export default function QuizSetup({
     quizOption,

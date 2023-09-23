@@ -1,0 +1,60 @@
+/* Quiz question text */
+.quiz-question {
+    font-family: "Karla", sans-serif;
+    font-size: 1.2rem;
+    line-height: .98em;
+    margin: 0 0 .8em 0;
+}
+
+/* Container for quiz answers */
+.quiz-answer-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8em;
+}
+
+/* Individual answer button styles */
+.answer {
+    background-color: #F5F7FB;
+    border: .77px solid var(--primary);
+    border-radius: 7.71px;
+    font-size: .875rem;
+    padding: .45em .85em;
+    margin-bottom: .1em;
+    transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hover effect for answer buttons */
+.answer:hover {
+    background-color: #D6DBF5;
+    border-color: #D6DBF5;
+    transform: scale(1.05);
+}
+
+.answer:disabled {
+    pointer-events: none;
+}
+
+/* Selected answer style */
+.selected-answer {
+    background-color: #D6DBF5;
+    border: .79px solid #D6DBF5;
+}
+
+/* Correct answer style */
+.correct-answer {
+    background-color: #94D7A2;
+    border: .77px solid #94D7A2;
+}
+
+/* Incorrect answer style */
+.incorrect-answer {
+    background-color: #F8BCBC;
+    border: .77px solid #F8BCBC;
+}
+
+/* Divider line below each question */
+.divider {
+    border-bottom: .79px solid #DBDEF0;
+    margin-top: 1.9em;
+}

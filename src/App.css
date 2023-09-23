@@ -7,6 +7,7 @@
 :root {
   --font-defalut: #293264;
   --primary: #4D5B9E;
+  --primary-hover: #45518D;
 }
 
 /* Reset default margin and padding for HTML and body */
@@ -66,7 +67,7 @@ select {
   color: var(--font-defalut);
 }
 
-/* Title and description styles */
+/* Title and description styles for main page */
 .title, .desc {
   text-align: center;
 }
@@ -87,7 +88,7 @@ select {
   line-height: 1.21em;
 }
 
-/* Button styles */
+/* Button styles - applied globally */
 button {
   color: #F5F7FB;
   background-color: var(--primary);
@@ -98,14 +99,23 @@ button {
   font-family: inherit;
   font-size: .9rem;
   padding: 1.0155em 1.8em;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease; 
 }
 
 button:hover {
-  transform: scale(1.02); /* Scale up slightly on hover */
+  transform: scale(1.02);
+  background-color: var(--primary-hover);
 }
+
+/* Specific to button in the main page */
 .start-btn {
   padding: 1.0155em 3.5em;
+}
+
+.start-btn.animate:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.04);
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 /* Animation for title screen elements */
@@ -123,149 +133,4 @@ button:hover {
 .start-btn.animate {
   opacity: 1; 
   transform: translateX(0); 
-}
-
-/* Modal styles */
-.modal {
-  position: fixed; 
-  z-index: 1; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%;
-  background-color: rgba(0,0,0,0.4);
-
-}
-
-.modal-content {
-  background-color: #FEFEFE;
-  margin: auto;
-  padding: 3em;
-  border: 1px solid #888;
-  width: 70%; 
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-/* Modal content styles */
-.modal-content-title {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-label {
-  display: block;
-  font-size: .9rem;
-  font-weight: 500;
-}
-
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: url('/custom_arrow.svg') no-repeat;
-  background-position: calc(100% - .9em) center;
-  background-size: .94em; 
-  width: 100%;
-  padding: .9em 1.3em .9em 1.3em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 1em;
-  font-family: inherit;
-}
-
-.modal-content-btn {
-  margin: 1em 0 1em 0;
-}
-
-/* Quiz container styles */
-.quiz-container {
-  padding: 2.5em 4.69em;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5em;
-}
-
-.quiz-question {
-  font-family: "Karla", sans-serif;
-  font-size: 1.2rem;
-  line-height: .98em;
-  margin: 0 0 .8em 0;
-}
-
-.divider {
-  border-bottom: .79px solid #DBDEF0;
-  margin-top: 1.9em;
-}
-
-.quiz-answer-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .8em;
-  
-  
-}
-
-.answer {
-  background-color: #F5F7FB;
-  border: .77px solid var(--primary);
-  border-radius: 7.71px;
-  font-size: .875rem;
-  padding: .45em .85em;
-  margin-bottom: .1em;
-  transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-
-}
-
-.answer:hover {
-  background-color: #D6DBF5;
-  border-color: #D6DBF5;
-  transform: scale(1.05); /* Scale up slightly on hover */
-}
-
-.check-answer-btn {
-  margin-top: 1em;
-  align-self: center;
-  width: auto;
-}
-
-.selected-answer {
-  background-color: #D6DBF5;
-  border: .79px solid #D6DBF5
-}
-
-.correct-answer {
-  background-color: #94D7A2;
-  border: .77px solid #94D7A2;
-}
-
-.incorrect-answer {
-  background-color: #F8BCBC;
-  border: .77px solid #F8BCBC;
-  ;
-}
-
-.score-section {
-  text-align: center;
-}
-
-.score-message {
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: center;
-}
-
-.btn-container {
-  display: flex;
-  gap: 1em;
-  margin-top: 3em;
-  justify-content: center;
 }

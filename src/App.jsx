@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import QuizSetup from './components/QuizSetup';
-import QuizPage from './components/QuizPage';
+import QuizSetup from './components/QuizSetup/QuizSetup';
+import QuizPage from './components/QuizPage/QuizPage';
 import './App.css';
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
     applyAnimation();
   }, [quizStatus]);
 
-  function showModal() {
+  function handleShowModal() {
     toggleShowModal(true);
   }
 
@@ -47,12 +47,15 @@ function App() {
         <div>
           <h1 className='title'>Quizzical</h1>
           <p className='desc'>Explore Your Knowledge</p>
-          <button className='start-btn' onClick={showModal}>
+          <button className='start-btn' onClick={handleShowModal}>
             Ready to Play?
           </button>
         </div>
       ) : (
-        <QuizPage quizOption={quizOption} setQuizStatus={setQuizStatus} />
+        <QuizPage
+          quizOption={quizOption}
+          setQuizStatus={setQuizStatus} 
+        />
       )}
 
       {showModal && (
