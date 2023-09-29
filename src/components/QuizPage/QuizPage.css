@@ -4,10 +4,13 @@
     display: flex;
     flex-direction: column;
     gap: 2.5em;
+    max-height: 80vh;
+    overflow-y: auto; 
 }
   
 .score-section {
     text-align: center;
+    margin-top: 1em;
 }
   
 .score-message {
@@ -21,4 +24,9 @@
     gap: 1em;
     margin-top: 3em;
     justify-content: center;
+}
+
+.check-answer-btn {
+    align-self: center; 
+    margin-top: 1em;
 }

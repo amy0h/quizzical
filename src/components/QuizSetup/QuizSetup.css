@@ -14,7 +14,7 @@
     margin: auto;
     padding: 3em;
     border: 1px solid #888;
-    width: 70%;
+    width: 80%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -60,4 +60,16 @@ select {
     width: auto;
     margin: 0 auto; 
     align-self: center; 
+}
+
+@media screen and (min-width: 700px) {
+    .modal-content {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .modal-content {
+        width: 40%;
+    }
 }

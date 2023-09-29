@@ -14,6 +14,8 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100vh;
+  width: 100vw;
 }
 
 /* Body styles */
@@ -26,33 +28,37 @@ body {
   font-family: "inter", sans-serif;
 }
 
-/* Main container styles */
-main {
-  width: 100vw;
-  height: 100vh;
+/* Main content container styles */
+.main-content-container {
   position: relative;
   background-color: #F5F7FB;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
 }
 
 /* Blob image styles */
 .blob-top {
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
+  position: fixed;
 }
 
 .blob-bottom {
-  bottom: 0px;
-  left: 0px;
+  bottom: 0;
+  left: 0;
+  position: fixed;
 }
 
 .blob-top, .blob-bottom {
   position: absolute;
-  width: 20%;
+  width: 15%;
   height: auto;
+  max-width: 250px;
 }
 
 /* Common text styles - change default font color */
@@ -63,7 +69,8 @@ main {
 .answer,
 .score-message,
 label,
-select {
+select,
+footer {
   color: var(--font-defalut);
 }
 
@@ -133,4 +140,20 @@ button:hover {
 .start-btn.animate {
   opacity: 1; 
   transform: translateX(0); 
+}
+
+/* Footer styles */
+footer {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  font-size: .8rem;
+  padding-bottom: 2em; 
+  width: 100%; 
+}
+
+a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #8564B9;
 }
